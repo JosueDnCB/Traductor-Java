@@ -1,23 +1,24 @@
 grammar multiplica;
 
 // Lexer rules
-NUMBER  : [0-9]+ ;
+DEF     : 'def' ;
+RETURN  : 'return' ;
+PRINT   : 'print' ;
 ID      : [a-zA-Z]+ ;
+NUMBER  : [0-9]+ ;
 WS      : [ \t\r\n]+ -> skip ;
 LPAREN  : '(' ;
 RPAREN  : ')' ;
 COLON   : ':' ;
 COMMA   : ',' ;
-DEF     : 'Def' ;
-RETURN  : 'Return' ;
 EQ      : '=' ;
 MULT    : '*' ;
 MINUS   : '-' ;
-PRINT   : 'print' ;
 NEWLINE : '\n' ;
 
 // Parser rules
-program : (functionDef | main)+ ;
+program : functionDef* main+ ;
+
 
 functionDef : DEF ID LPAREN params RPAREN COLON body ;
 
@@ -27,7 +28,8 @@ body        : RETURN expr ;
 
 main        : PRINT LPAREN ID LPAREN NUMBER COMMA NUMBER RPAREN RPAREN ;
 
+
 expr        : expr MULT expr
             | expr MINUS expr
             | NUMBER
-            | ID ;  // Para manejar las variables y funciones
+            | ID ; 
